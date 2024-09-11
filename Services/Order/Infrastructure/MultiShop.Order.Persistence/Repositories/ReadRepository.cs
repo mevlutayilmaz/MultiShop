@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using MultiShop.Order.Application.Repositories;
+using MultiShop.Order.Domain.Entities.Common;
 using MultiShop.Order.Persistence.Contexts;
 using System.Linq.Expressions;
 
 namespace MultiShop.Order.Persistence.Repositories
 {
-    public class ReadRepository<T> : IReadRepository<T> where T : class
+    public class ReadRepository<T> : IReadRepository<T> where T : BaseEntity
     {
         private readonly OrderContext _context;
 
@@ -31,9 +32,11 @@ namespace MultiShop.Order.Persistence.Repositories
             return query;
         }
 
-        public async Task<T> GetByIdAsync(string id)
+        public async Task<T> GetByIdAsync(string id, bool enableTracking = false)
         {
-            return await Table.FindAsync(id);
+            var query = Table.AsNoTracking();
+            if(!enableTracking) query = query.AsNoTracking();
+            return await query.FirstOrDefaultAsync(x => x.Id == Guid.Parse(id));
         }
     }
 }

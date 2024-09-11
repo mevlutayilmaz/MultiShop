@@ -22,7 +22,7 @@ namespace MultiShop.Order.Application.Features.Commands.Addresses.UpdateAddress
         {
             _writeRepository.Update(new()
             {
-                Id = request.Id,
+                Id = Guid.Parse(request.Id),
                 City = request.City,
                 Detail = request.Detail,
                 District = request.District,

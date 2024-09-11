@@ -1,9 +1,8 @@
-﻿using MediatR;
-
-namespace MultiShop.Order.Application.Features.Commands.OrderDetails.CreateOrderDetail
+﻿namespace MultiShop.Order.Application.Features.Queries.OrderDetails.GetOrderDetailById
 {
-    public class CreateOrderDetailRequest : IRequest<CreateOrderDetailResponse>
+    public class GetOrderDetailByIdQueryResponse
     {
+        public string Id { get; set; }
         public string ProductId { get; set; }
         public string ProductName { get; set; }
         public decimal ProductPrice { get; set; }

@@ -22,7 +22,7 @@ namespace MultiShop.Order.Application.Features.Commands.OrderDetails.UpdateOrder
         {
             _writeRepository.Update(new()
             {
-                Id = request.Id,
+                Id = Guid.Parse(request.Id),
                 OrderingId = request.OrderingId,
                 ProductId = request.ProductId,
                 ProductName = request.ProductName,

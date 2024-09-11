@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using MultiShop.Order.Application.Repositories;
+using MultiShop.Order.Domain.Entities.Common;
 using MultiShop.Order.Persistence.Contexts;
 
 namespace MultiShop.Order.Persistence.Repositories
 {
-    public class WriteRepository<T> : IWriteRepository<T> where T : class
+    public class WriteRepository<T> : IWriteRepository<T> where T : BaseEntity
     {
         private readonly OrderContext _context;
 
@@ -23,6 +24,12 @@ namespace MultiShop.Order.Persistence.Repositories
         {
             EntityEntry<T> entityEntry = Table.Remove(entity);
             return entityEntry.State == EntityState.Deleted;
+        }
+
+        public async Task<bool> RemoveAsync(string id)
+        {
+            T model = await Table.FirstOrDefaultAsync(x => x.Id == Guid.Parse(id));
+            return Remove(model);
         }
 
         public bool Update(T entity)

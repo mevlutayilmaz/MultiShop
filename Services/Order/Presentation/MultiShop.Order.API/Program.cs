@@ -1,8 +1,11 @@
+using MediatR;
+using MultiShop.Order.Application;
 using MultiShop.Order.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddPersistenceService(builder.Configuration);
+builder.Services.AddApplicationService();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

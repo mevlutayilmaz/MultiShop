@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace MultiShop.Order.Application.Features.Commands.OrderDetails.CreateOrderDetail
 {
-    public class CreateOrderDetailHandler : IRequestHandler<CreateOrderDetailRequest, CreateOrderDetailResponse>
+    public class CreateOrderDetailCommandHandler : IRequestHandler<CreateOrderDetailCommandRequest, CreateOrderDetailCommandResponse>
     {
         private readonly IWriteRepository<OrderDetail> _writeRepository;
 
-        public CreateOrderDetailHandler(IWriteRepository<OrderDetail> writeRepository)
+        public CreateOrderDetailCommandHandler(IWriteRepository<OrderDetail> writeRepository)
         {
             _writeRepository = writeRepository;
         }
 
-        public async Task<CreateOrderDetailResponse> Handle(CreateOrderDetailRequest request, CancellationToken cancellationToken)
+        public async Task<CreateOrderDetailCommandResponse> Handle(CreateOrderDetailCommandRequest request, CancellationToken cancellationToken)
         {
             await _writeRepository.AddAsync(new()
             {

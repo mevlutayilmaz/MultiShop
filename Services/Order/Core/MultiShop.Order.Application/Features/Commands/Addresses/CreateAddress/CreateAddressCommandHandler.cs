@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MultiShop.Order.Application.Features.Commands.Addresses.CreateAddressCommand
+namespace MultiShop.Order.Application.Features.Commands.Addresses.CreateAddress
 {
     public class CreateAddressCommandHandler : IRequestHandler<CreateAddressCommandRequest, CreateAddressCommandResponse>
     {

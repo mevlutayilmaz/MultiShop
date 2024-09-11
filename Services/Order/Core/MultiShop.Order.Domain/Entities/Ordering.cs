@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MultiShop.Order.Domain.Entities.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace MultiShop.Order.Domain.Entities
 {
-    public class Ordering
+    public class Ordering : BaseEntity
     {
-        public string Id { get; set; }
         public string UserId { get; set; }
         public decimal TotalPrice { get; set; }
         public DateTime OrderDate { get; set; }

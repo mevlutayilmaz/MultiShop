@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace MultiShop.Order.Application.Features.Commands.Addresses.CreateAddressCommand
+namespace MultiShop.Order.Application.Features.Commands.Addresses.CreateAddress
 {
     public class CreateAddressCommandRequest : IRequest<CreateAddressCommandResponse>
     {
