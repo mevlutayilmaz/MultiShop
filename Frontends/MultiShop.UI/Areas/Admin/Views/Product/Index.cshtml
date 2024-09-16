@@ -1,4 +1,4 @@
-﻿@model List<ResultCategoryDTO>
+﻿@model List<ResultProductWithCategoryDTO>
 
 @{
     ViewData["Title"] = "Index";
@@ -10,35 +10,40 @@
     <div class="row">
         <div class="col-md-12">
             <div class="chart-box">
-                <h4>Kategori Tablosu</h4>
-                <p>Kategori ile ilgili işlemlerinizi bu tablodan yapabilirsiniz.</p>
+                <h4>Ürün Tablosu</h4>
+                <p>Ürün ile ilgili işlemlerinizi bu tablodan yapabilirsiniz.</p>
                 <div class="bs-example" data-example-id="bordered-table">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Kategori Adı</th>
+                                <th>Ürün Adı</th>
+                                <th>Ürün Fiyatı</th>
+                                <th>Kategori</th>
                                 <th>Sil</th>
                                 <th>Güncelle</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach(var item in Model)
+                            @foreach (var item in Model)
                             {
                                 count++;
                                 <tr>
                                     <th scope="row">@count</th>
                                     <td>@item.Name</td>
-                                    <td><a href="/Admin/Category/DeleteCategory/@item.Id" class="btn btn-danger">Sil</a></td>
-                                    <td><a href="/Admin/Category/UpdateCategory/@item.Id" class="btn btn-success">Güncelle</a></td>
+                                    <td>@item.Price</td>
+                                    <td>@item.Category.Name</td>
+                                    <td><a href="/Admin/Product/DeleteProduct/@item.Id" class="btn btn-danger">Sil</a></td>
+                                    <td><a href="/Admin/Product/UpdateProduct/@item.Id" class="btn btn-success">Güncelle</a></td>
                                 </tr>
                             }
                         </tbody>
                     </table>
-                    <a href="/Admin/Category/CreateCategory" class="btn btn-primary">Yeni Kategori Girişi</a>
+                    <a href="/Admin/Product/CreateProduct" class="btn btn-primary">Yeni Ürün Girişi</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
 
