@@ -1,0 +1,31 @@
+﻿@model CreateProductImageDTO
+
+@{
+    ViewData["Title"] = "CreateProductImage";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h4>Görsel Ekleme</h4>
+                <p>Görsel ile ilgili ekleme işlemlerinizi bu panelden yapabilirsiniz.</p>
+                <div class="bs-example" data-example-id="bordered-table">
+
+                    <form method="post">
+                        <label>Ürün Görseli</label>
+                        <input type="text" class="form-control" asp-for="ImageUrl" />
+                        <br />
+                        <label>Ürün Id</label>
+                        <input type="text" readonly class="form-control" asp-for="ProductId" value="@TempData["ProductId"]?.ToString()" />
+                        <br />
+                        <button class="btn btn-primary">Görseli Ekle</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

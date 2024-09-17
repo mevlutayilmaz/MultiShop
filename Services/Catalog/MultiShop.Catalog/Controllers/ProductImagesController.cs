@@ -30,6 +30,13 @@ namespace MultiShop.Catalog.Controllers
             return Ok(value);
         }
 
+        [HttpGet("[action]/{productId}")]
+        public async Task<IActionResult> GetProductImageByProductId(string productId)
+        {
+            var value = await _productImageService.GetByProductIdProductImageAsync(productId);
+            return Ok(value);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateProductImage(CreateProductImageDTO createProductImageDTO)
         {
@@ -44,7 +51,7 @@ namespace MultiShop.Catalog.Controllers
             return Ok("ProductImage başarıyla güncellendi");
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProductImage(string id)
         {
             await _productImageService.DeleteProductImageAsync(id);

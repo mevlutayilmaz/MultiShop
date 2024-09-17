@@ -19,10 +19,11 @@ namespace MultiShop.Catalog.Services.ProductDetailServices
             _mapper = mapper;
         }
 
-        public async Task CreateProductDetailAsync(CreateProductDetailDTO createProductDetailDTO)
+        public async Task<GetByProductIdProductDetailDTO> CreateProductDetailAsync(CreateProductDetailDTO createProductDetailDTO)
         {
             var value = _mapper.Map<ProductDetail>(createProductDetailDTO);
             await _ProductDetailCollection.InsertOneAsync(value);
+            return _mapper.Map<GetByProductIdProductDetailDTO>(value);
         }
 
         public async Task DeleteProductDetailAsync(string id)
@@ -34,6 +35,13 @@ namespace MultiShop.Catalog.Services.ProductDetailServices
         {
             var value = await _ProductDetailCollection.Find(pd => pd.Id == id).FirstOrDefaultAsync();
             return _mapper.Map<GetByIdProductDetailDTO>(value);
+        }
+
+        public async Task<GetByProductIdProductDetailDTO> GetByProductIdProductDetailAsync(string productId)
+        {
+            var value = await _ProductDetailCollection.Find(pd => pd.ProductId == productId).FirstOrDefaultAsync();
+            if(value is null) return await CreateProductDetailAsync(new() { ProductId = productId });
+            return _mapper.Map<GetByProductIdProductDetailDTO>(value);
         }
 
         public async Task<IList<ResultProductDetailDTO>> GetProductDetailsAsync()

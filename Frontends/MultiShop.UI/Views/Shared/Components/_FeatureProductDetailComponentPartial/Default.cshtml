@@ -1,7 +1,8 @@
-﻿
+﻿@model UpdateProductDTO
+
 <div class="col-lg-7 h-auto mb-30">
     <div class="h-100 bg-light p-30">
-        <h3>Product Name Goes Here</h3>
+        <h3>@Model.Name</h3>
         <div class="d-flex mb-3">
             <div class="text-primary mr-2">
                 <small class="fas fa-star"></small>
@@ -12,12 +13,9 @@
             </div>
             <small class="pt-1">(99 Reviews)</small>
         </div>
-        <h3 class="font-weight-semi-bold mb-4">$150.00</h3>
-        <p class="mb-4">
-            Volup erat ipsum diam elitr rebum et dolor. Est nonumy elitr erat diam stet sit
-            clita ea. Sanc ipsum et, labore clita lorem magna duo dolor no sea
-            Nonumy
-        </p>
+        <h3 class="font-weight-semi-bold mb-4">₺ @Model.Price.ToString("N2")</h3>
+        <p class="mb-4">@Model.Description</p>
+
         <div class="d-flex mb-3">
             <strong class="text-dark mr-3">Sizes:</strong>
             <form>
@@ -43,6 +41,7 @@
                 </div>
             </form>
         </div>
+
         <div class="d-flex mb-4">
             <strong class="text-dark mr-3">Colors:</strong>
             <form>
@@ -68,6 +67,7 @@
                 </div>
             </form>
         </div>
+
         <div class="d-flex align-items-center mb-4 pt-2">
             <div class="input-group quantity mr-3" style="width: 130px;">
                 <div class="input-group-btn">
