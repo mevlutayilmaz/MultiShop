@@ -40,6 +40,13 @@ namespace MultiShop.Comment.Controllers
             return Ok(value);
         }
 
+        [HttpGet("[action]")]
+        public async Task<IActionResult> CommentCountByProduct(string productId)
+        {
+            var value = await _context.UserComments.CountAsync(c => c.ProductId == productId);
+            return Ok(value);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateComment(CreateCommentDTO createCommentDTO)
         {
@@ -50,7 +57,7 @@ namespace MultiShop.Comment.Controllers
                 ImageUrl = createCommentDTO.ImageUrl,
                 NameSurname = createCommentDTO.NameSurname,
                 Rating = createCommentDTO.Rating,
-                Status = createCommentDTO.Status,
+                Status = true,
                 ProductId = createCommentDTO.ProductId
             });
             await _context.SaveChangesAsync();
