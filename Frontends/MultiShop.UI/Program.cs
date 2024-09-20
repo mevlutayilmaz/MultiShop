@@ -1,5 +1,10 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using MultiShop.UI.Services;
+using MultiShop.UI.Handlers;
+using MultiShop.UI.Services.CatalogServices.CategoryServices;
+using MultiShop.UI.Services.Concrete;
+using MultiShop.UI.Services.Interfaces;
+using MultiShop.UI.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,13 +19,44 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddCo
 	opt.Cookie.Name = "MultiShopJwt";
 });
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).
+	AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opt =>
+	{
+		opt.LoginPath = "/Login/Index/";
+		opt.ExpireTimeSpan = TimeSpan.FromDays(5);
+		opt.Cookie.Name = "MultiShopCookie";
+		opt.SlidingExpiration = true;
+	});
+
+builder.Services.AddAccessTokenManagement();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddHttpClient<IIdentityService, IdentityService>();
 
 // Add services to the container.
 builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
+
+builder.Services.Configure<ClientSettings>(builder.Configuration.GetSection("ClientSettings"));
+builder.Services.Configure<ServiceApiSettings>(builder.Configuration.GetSection("ServiceApiSettings"));
+
+builder.Services.AddScoped<ResourceOwnerPasswordTokenHandler>();
+builder.Services.AddScoped<ClientCredentialTokenHandler>();
+
+builder.Services.AddHttpClient<IClientCredentialTokenService, ClientCredentialTokenService>();
+
+var values = builder.Configuration.GetSection("ServiceApiSettings").Get<ServiceApiSettings>();
+
+builder.Services.AddHttpClient<IUserService, UserService>(opt =>
+{
+	opt.BaseAddress = new Uri(values.IdentityServiceUrl);
+}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+builder.Services.AddHttpClient<ICategoryService, CategoryService>(opt =>
+{
+	opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
+}).AddHttpMessageHandler<ClientCredentialTokenHandler>();
 
 var app = builder.Build();
 
