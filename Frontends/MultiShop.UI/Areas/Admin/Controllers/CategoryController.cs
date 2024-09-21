@@ -68,10 +68,10 @@ namespace MultiShop.UI.Areas.Admin.Controllers
 
 		void CategoryViewbagList()
 		{
-			ViewBag.h1 = "Ana Sayfa";
-			ViewBag.h2 = "Kategoriler";
-			ViewBag.h3 = "Kategori Listesi";
-			ViewBag.h0 = "Kategori İşlemleri";
+			ViewBag.h1 = "Home";
+			ViewBag.h2 = "Categories";
+			ViewBag.h3 = "Category List";
+			ViewBag.h0 = "Category Operations";
 		}
 	}
 }

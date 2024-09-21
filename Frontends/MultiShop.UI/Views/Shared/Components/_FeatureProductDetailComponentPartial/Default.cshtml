@@ -5,13 +5,23 @@
         <h3>@Model.Name</h3>
         <div class="d-flex mb-3">
             <div class="text-primary mr-2">
-                <small class="fas fa-star"></small>
-                <small class="fas fa-star"></small>
-                <small class="fas fa-star"></small>
-                <small class="fas fa-star-half-alt"></small>
-                <small class="far fa-star"></small>
+                @for(int i = 1; i <= 5; i++)
+                {
+                    if (i < ViewBag.averageRating)
+                    {
+                        <small class="fas fa-star"></small>
+                    }
+                    else if (ViewBag.averageRating > i - 1 && ViewBag.averageRating < i)
+                    {
+                        <small class="fas fa-star-half-alt"></small>
+                    }
+                    else
+                    {
+                        <small class="far fa-star"></small>
+                    }
+                }
             </div>
-            <small class="pt-1">(99 Reviews)</small>
+            <small class="pt-1">(@ViewBag.commentCount Reviews)</small>
         </div>
         <h3 class="font-weight-semi-bold mb-4">₺ @Model.Price.ToString("N2")</h3>
         <p class="mb-4">@Model.Description</p>

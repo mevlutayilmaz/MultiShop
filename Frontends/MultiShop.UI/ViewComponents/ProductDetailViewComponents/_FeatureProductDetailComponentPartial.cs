@@ -1,29 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DTOLayer.CatalogDTOs.ProductDTOs;
+using MultiShop.UI.Services.CatalogServices.ProductServices;
+using MultiShop.UI.Services.CommentServices;
 using Newtonsoft.Json;
 
 namespace MultiShop.UI.ViewComponents.ProductDetailViewComponents
 {
     public class _FeatureProductDetailComponentPartial : ViewComponent
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IProductService _productService;
+        private readonly ICommentService _commentService;
 
-        public _FeatureProductDetailComponentPartial(IHttpClientFactory httpClientFactory)
+        public _FeatureProductDetailComponentPartial(IProductService productService, ICommentService commentService)
         {
-            _httpClientFactory = httpClientFactory;
+            _productService = productService;
+            _commentService = commentService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(string id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7200/api/Products/" + id);
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var values = JsonConvert.DeserializeObject<UpdateProductDTO>(jsonData);
-                return View(values);
-            }
-            return View();
+            ViewBag.commentCount = await _commentService.CommentCountByProductAsync(id);
+            ViewBag.averageRating = await _commentService.RatingAverageByProductAsync(id);
+            var values = await _productService.GetByIdProductAsync(id);
+            return View(values);
         }
     }
 }

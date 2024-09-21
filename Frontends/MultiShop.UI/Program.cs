@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using MultiShop.UI.Extensions;
 using MultiShop.UI.Handlers;
 using MultiShop.UI.Services.CatalogServices.CategoryServices;
 using MultiShop.UI.Services.Concrete;
@@ -38,25 +39,7 @@ builder.Services.AddHttpClient<IIdentityService, IdentityService>();
 builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
 
-builder.Services.Configure<ClientSettings>(builder.Configuration.GetSection("ClientSettings"));
-builder.Services.Configure<ServiceApiSettings>(builder.Configuration.GetSection("ServiceApiSettings"));
-
-builder.Services.AddScoped<ResourceOwnerPasswordTokenHandler>();
-builder.Services.AddScoped<ClientCredentialTokenHandler>();
-
-builder.Services.AddHttpClient<IClientCredentialTokenService, ClientCredentialTokenService>();
-
-var values = builder.Configuration.GetSection("ServiceApiSettings").Get<ServiceApiSettings>();
-
-builder.Services.AddHttpClient<IUserService, UserService>(opt =>
-{
-	opt.BaseAddress = new Uri(values.IdentityServiceUrl);
-}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
-
-builder.Services.AddHttpClient<ICategoryService, CategoryService>(opt =>
-{
-	opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
-}).AddHttpMessageHandler<ClientCredentialTokenHandler>();
+builder.Services.AddUIServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -78,7 +61,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Default}/{action=Index}/{id?}");
 
 app.UseEndpoints(endpoints =>
 {

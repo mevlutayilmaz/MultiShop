@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.DTOLayer.CatalogDTOs.ProductDetailDTOs;
+using MultiShop.UI.Services.CatalogServices.ProductDetailServices;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -11,44 +12,35 @@ namespace MultiShop.UI.Areas.Admin.Controllers
     [Route("Admin/ProductDetail")]
     public class ProductDetailController : Controller
     {
-        private readonly IHttpClientFactory _httpClientFactory;
-        public ProductDetailController(IHttpClientFactory httpClientFactory)
-        {
-            _httpClientFactory = httpClientFactory;
-        }
+        private readonly IProductDetailService _productDetailService;
 
-        [Route("UpdateProductDetail/{productId}")]
+		public ProductDetailController(IProductDetailService productDetailService)
+		{
+			_productDetailService = productDetailService;
+		}
+
+		[Route("UpdateProductDetail/{productId}")]
         public async Task<IActionResult> UpdateProductDetail(string productId)
         {
-            ViewBag.h0 = "Özel Teklif İşlemleri";
-            ViewBag.h1 = "Ana Sayfa";
-            ViewBag.h2 = "Özel Teklifler";
-            ViewBag.h3 = "Özel Teklif Güncelleme";
-
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7200/api/ProductDetails/GetByProductIdProductDetail/" + productId);
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var values = JsonConvert.DeserializeObject<UpdateProductDetailDTO>(jsonData);
-                View(values);
-            }
-            return View();
+            ProductDetailViewbagList();
+            var values = await _productDetailService.GetByProductIdProductDetailAsync(productId);
+            return View(values);
         }
 
         [Route("UpdateProductDetail/{productId}")]
         [HttpPost]
         public async Task<IActionResult> UpdateProductDetail(UpdateProductDetailDTO updateProductDetailDTO)
         {
-            var client = _httpClientFactory.CreateClient();
-            var jsonData = JsonConvert.SerializeObject(updateProductDetailDTO);
-            StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync("https://localhost:7200/api/ProductDetails", stringContent);
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index", "Product", new { area = "Admin" });
-            }
-            return View();
-        }
-    }
+            await _productDetailService.UpdateProductDetailAsync(updateProductDetailDTO);
+			return RedirectToAction("Index", "Product", new { area = "Admin" });
+		}
+
+		void ProductDetailViewbagList()
+		{
+			ViewBag.h1 = "Home";
+			ViewBag.h2 = "Product Details";
+			ViewBag.h3 = "Product Detail List";
+			ViewBag.h0 = "Product Detail Operations";
+		}
+	}
 }

@@ -7,9 +7,9 @@ using MultiShop.Comment.DTOs;
 
 namespace MultiShop.Comment.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
     public class CommentsController : ControllerBase
     {
         private readonly CommentContext _context;
@@ -44,6 +44,13 @@ namespace MultiShop.Comment.Controllers
         public async Task<IActionResult> CommentCountByProduct(string productId)
         {
             var value = await _context.UserComments.CountAsync(c => c.ProductId == productId);
+            return Ok(value);
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> RatingAverageByProduct(string productId)
+        {
+            var value = await _context.UserComments.Where(c => c.ProductId == productId).AverageAsync(c => c.Rating);
             return Ok(value);
         }
 
