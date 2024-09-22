@@ -4,8 +4,11 @@ namespace MultiShop.Basket.Services
 {
     public interface IBasketService
     {
-        Task<BasketTotalDTO> GetBasketAsync(string userId);
+        Task<BasketTotalDTO> GetBasketAsync();
         Task<bool> SaveBasketAsync(BasketTotalDTO basket);
-        Task<bool> DeleteBasketAsync(string userId);
+        Task<bool> DeleteBasketAsync();
+        Task<bool> RemoveBasketItemAsync(string productId);
+        Task<bool> AddBasketItemAsync(BasketItemDTO basketItemDTO);
+
     }
 }

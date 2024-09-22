@@ -7,7 +7,7 @@
             <div class="product-img position-relative overflow-hidden">
                 <img class="img-fluid w-100" src="@item.ImageUrl" alt="" style="width: 100%; height: 250px; object-fit: cover;">
                 <div class="product-action">
-                    <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
+                    <a class="btn btn-outline-dark btn-square" href="/ShoppingCart/AddBasketItem/@item.Id"><i class="fa fa-shopping-cart"></i></a>
                     <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
                     <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
                     <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
@@ -20,7 +20,7 @@
                     @item.Name
                 </a>
                 <div class="d-flex align-items-center justify-content-center mt-2">
-                    <h5>₺ @item.Price.ToString("N2")</h5><h6 class="text-muted ml-2"><del>₺ @((item.Price * 1.1M).ToString("N2"))</del></h6>
+                    <h5>₺@item.Price.ToString("N2")</h5><h6 class="text-muted ml-2"><del>₺ @((item.Price * 1.1M).ToString("N2"))</del></h6>
                 </div>
                 <div class="d-flex align-items-center justify-content-center mb-1">
                     <small class="fa fa-star text-primary mr-1"></small>

@@ -11,34 +11,45 @@ namespace MultiShop.Basket.Controllers
     public class BasketsController : ControllerBase
     {
         private readonly IBasketService _basketService;
-        private readonly ILoginService _loginService;
 
-        public BasketsController(IBasketService basketService, ILoginService loginService)
+        public BasketsController(IBasketService basketService)
         {
             _basketService = basketService;
-            _loginService = loginService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetBasket()
         {
-            var value = await _basketService.GetBasketAsync(_loginService.GetUserId);
+            var value = await _basketService.GetBasketAsync();
             return Ok(value);
         }
 
         [HttpPost]
         public async Task<IActionResult> SaveBasket(BasketTotalDTO dto)
         {
-            dto.UserId = _loginService.GetUserId;
             await _basketService.SaveBasketAsync(dto);
             return Ok("Sepetteki değişiklikler kaydedildi");
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> AddBasketItem(BasketItemDTO dto)
+        {
+            await _basketService.AddBasketItemAsync(dto);
+            return Ok("Ürün sepete kaydedildi");
         }
 
         [HttpDelete]
         public async Task<IActionResult> DeleteBasket()
         {
-            await _basketService.DeleteBasketAsync(_loginService.GetUserId);
+            await _basketService.DeleteBasketAsync();
             return Ok("Sepet başarıyla silindi");
+        }
+
+        [HttpDelete("[action]/{productId}")]
+        public async Task<IActionResult> RemoveBasketItem(string productId)
+        {
+            await _basketService.RemoveBasketItemAsync(productId);
+            return Ok("Ürün başarıyla sepetten silindi");
         }
     }
 }

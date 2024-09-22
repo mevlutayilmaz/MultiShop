@@ -1,4 +1,5 @@
 ﻿using MultiShop.UI.Handlers;
+using MultiShop.UI.Services.BasketServices;
 using MultiShop.UI.Services.CatalogServices.BrandServices;
 using MultiShop.UI.Services.CatalogServices.CategoryServices;
 using MultiShop.UI.Services.CatalogServices.FeatureSliderServices;
@@ -33,7 +34,12 @@ namespace MultiShop.UI.Extensions
 				opt.BaseAddress = new Uri(values.IdentityServiceUrl);
 			}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
-			services.AddHttpClient<ICategoryService, CategoryService>(opt =>
+            services.AddHttpClient<IBasketService, BasketService>(opt =>
+            {
+                opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Basket.Path}");
+            }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+            services.AddHttpClient<ICategoryService, CategoryService>(opt =>
 			{
 				opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
 			}).AddHttpMessageHandler<ClientCredentialTokenHandler>();
