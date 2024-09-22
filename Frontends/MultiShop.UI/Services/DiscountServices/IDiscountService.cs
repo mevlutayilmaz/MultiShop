@@ -1,6 +1,6 @@
-﻿using MultiShop.Discount.DTOs;
+﻿using MultiShop.DTOLayer.DiscountDTOs;
 
-namespace MultiShop.Discount.Services
+namespace MultiShop.UI.Services.DiscountServices
 {
     public interface IDiscountService
     {
@@ -8,7 +8,7 @@ namespace MultiShop.Discount.Services
         Task CreateDiscountCouponAsync(CreateDiscountCouponDTO createCouponDTO);
         Task UpdateDiscountCouponAsync(UpdateDiscountCouponDTO updateCouponDTO);
         Task DeleteDiscountCouponAsync(string id);
-        Task<GetByIdDiscountCouponDTO> GetDiscountCouponByIdAsync(string id);
+        Task<UpdateDiscountCouponDTO> GetDiscountCouponByIdAsync(string id);
         Task<ResultDiscountCouponDTO> GetDiscountCouponByCodeAsync(string code);
     }
 }

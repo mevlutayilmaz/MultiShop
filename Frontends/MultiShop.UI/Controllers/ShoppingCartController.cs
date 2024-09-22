@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.UI.Services.BasketServices;
 using MultiShop.UI.Services.CatalogServices.ProductServices;
+using MultiShop.UI.Services.DiscountServices;
 
 namespace MultiShop.UI.Controllers
 {
@@ -8,20 +9,30 @@ namespace MultiShop.UI.Controllers
     {
         private readonly IBasketService _basketService;
         private readonly IProductService _productService;
+        private readonly IDiscountService _discountService;
 
-        public ShoppingCartController(IBasketService basketService, IProductService productService)
+        public ShoppingCartController(IBasketService basketService, IProductService productService, IDiscountService discountService)
         {
             _basketService = basketService;
             _productService = productService;
+            _discountService = discountService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string? code)
         {
             ViewBag.dictionary1 = "Home";
             ViewBag.dictionary2 = "Shop";
             ViewBag.dictionary3 = "Shopping Cart";
             ViewBag.dictionary1Url = "/Default/Index";
             ViewBag.dictionary2Url = "#";
+
+            if(code != null)
+            {
+                var values = await _discountService.GetDiscountCouponByCodeAsync(code);
+                ViewData["codeRate"] = values.Rate;
+                ViewData["codeName"] = values.Code;
+                ViewBag.codeName = values.Code;
+            }
             return View();
         }
 

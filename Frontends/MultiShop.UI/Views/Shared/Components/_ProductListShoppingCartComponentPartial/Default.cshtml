@@ -24,7 +24,7 @@
                             </span>
                         </div>
                     </td>
-                    <td class="align-middle">₺@item.Price.ToString("N2")</td>
+                    <td class="align-middle">@item.Price.ToString("C")</td>
                     <td class="align-middle">
                         <div class="input-group quantity mx-auto" style="width: 100px;">
                             <div class="input-group-btn">
@@ -40,7 +40,7 @@
                             </div>
                         </div>
                     </td>
-                    <td class="align-middle">₺@((item.Price * item.Quantity).ToString("N2"))</td>
+                    <td class="align-middle">@((item.Price * item.Quantity).ToString("C"))</td>
                     <td class="align-middle"><a href="/ShoppingCart/RemoveBasketItem/@item.ProductId" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
                 </tr>
 
