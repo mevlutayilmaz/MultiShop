@@ -1,6 +1,6 @@
-﻿namespace MultiShop.Order.Application.Features.Queries.Addresses.GetAddresses
+﻿namespace MultiShop.Order.Application.Features.Queries.Addresses.GetAddressByUserId
 {
-    public class GetAddressesQueryResponse
+    public class GetAddressByUserIdQueryResponse
     {
         public string Id { get; set; }
         public string UserId { get; set; }

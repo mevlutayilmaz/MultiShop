@@ -2,8 +2,11 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MultiShop.Order.Application;
 using MultiShop.Order.Persistence;
+using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
+
+JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
 {
@@ -11,6 +14,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     opt.Audience = "ResourceOrder";
     opt.RequireHttpsMetadata = false;
 });
+
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddPersistenceService(builder.Configuration);
 builder.Services.AddApplicationService();

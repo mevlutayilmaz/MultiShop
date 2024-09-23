@@ -24,10 +24,16 @@ namespace MultiShop.Order.Application.Features.Queries.Addresses.GetAddressById
             return new()
             {
                 Id = data.Id.ToString(),
+                UserId = data.UserId,
+                FirstName = data.FirstName,
+                LastName = data.LastName,
+                Email = data.Email,
+                PhoneNumber = data.PhoneNumber,
+                Country = data.Country,
                 City = data.City,
-                Detail = data.Detail,
                 District = data.District,
-                UserId = data.UserId
+                Detail = data.Detail,
+                ZipCode = data.ZipCode,
             };
         }
     }

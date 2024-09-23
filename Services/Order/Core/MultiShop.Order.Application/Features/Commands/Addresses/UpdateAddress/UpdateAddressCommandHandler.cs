@@ -23,10 +23,16 @@ namespace MultiShop.Order.Application.Features.Commands.Addresses.UpdateAddress
             _writeRepository.Update(new()
             {
                 Id = Guid.Parse(request.Id),
+                UserId = request.UserId,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Email = request.Email,
+                PhoneNumber = request.PhoneNumber,
+                Country = request.Country,
                 City = request.City,
-                Detail = request.Detail,
                 District = request.District,
-                UserId = request.UserId
+                Detail = request.Detail,
+                ZipCode = request.ZipCode
             });
 
             await _writeRepository.SaveAsync();

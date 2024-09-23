@@ -5,6 +5,7 @@ using MultiShop.Order.Application.Features.Commands.Addresses.CreateAddress;
 using MultiShop.Order.Application.Features.Commands.Addresses.RemoveAddress;
 using MultiShop.Order.Application.Features.Commands.Addresses.UpdateAddress;
 using MultiShop.Order.Application.Features.Queries.Addresses.GetAddressById;
+using MultiShop.Order.Application.Features.Queries.Addresses.GetAddressByUserId;
 using MultiShop.Order.Application.Features.Queries.Addresses.GetAddresses;
 
 namespace MultiShop.Order.API.Controllers
@@ -32,6 +33,13 @@ namespace MultiShop.Order.API.Controllers
         public async Task<IActionResult> GetAddressById([FromRoute] GetAddressByIdQueryRequest request)
         {
             GetAddressByIdQueryResponse response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetAddressByUserId([FromQuery] GetAddressByUserIdQueryRequest request)
+        {
+            GetAddressByUserIdQueryResponse response = await _mediator.Send(request);
             return Ok(response);
         }
 

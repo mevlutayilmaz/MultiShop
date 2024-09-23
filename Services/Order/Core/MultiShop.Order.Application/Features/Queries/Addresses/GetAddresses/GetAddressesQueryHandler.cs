@@ -24,10 +24,16 @@ namespace MultiShop.Order.Application.Features.Queries.Addresses.GetAddresses
             return datas.Select(a => new GetAddressesQueryResponse
             {
                 Id = a.Id.ToString(),
-                City = a.City,
-                Detail = a.Detail,
-                District = a.District,
                 UserId = a.UserId,
+                FirstName = a.FirstName,
+                LastName = a.LastName,
+                Email = a.Email,
+                PhoneNumber = a.PhoneNumber,
+                Country = a.Country,
+                City = a.City,
+                District = a.District,
+                Detail = a.Detail,
+                ZipCode = a.ZipCode,
             }).ToList();
         }
     }
