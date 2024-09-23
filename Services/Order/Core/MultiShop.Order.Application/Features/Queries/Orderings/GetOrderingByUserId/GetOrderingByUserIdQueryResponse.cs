@@ -1,8 +1,6 @@
-﻿using MediatR;
-
-namespace MultiShop.Order.Application.Features.Commands.Orderings.UpdateOrdering
+﻿namespace MultiShop.Order.Application.Features.Queries.Orderings.GetOrderingByUserId
 {
-    public class UpdateOrderingCommandRequest : IRequest<UpdateOrderingCommandResponse>
+    public class GetOrderingByUserIdQueryResponse
     {
         public string Id { get; set; }
         public string UserId { get; set; }

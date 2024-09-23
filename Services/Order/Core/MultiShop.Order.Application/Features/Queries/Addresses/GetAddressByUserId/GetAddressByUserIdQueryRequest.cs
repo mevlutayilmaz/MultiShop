@@ -4,6 +4,5 @@ namespace MultiShop.Order.Application.Features.Queries.Addresses.GetAddressByUse
 {
     public class GetAddressByUserIdQueryRequest : IRequest<GetAddressByUserIdQueryResponse>
     {
-        public string UserId { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using MultiShop.Order.Application.Repositories;
 using MultiShop.Order.Domain.Entities;
@@ -13,19 +14,22 @@ namespace MultiShop.Order.Application.Features.Queries.Addresses.GetAddressByUse
     public class GetAddressByUserIdQueryHandler : IRequestHandler<GetAddressByUserIdQueryRequest, GetAddressByUserIdQueryResponse>
     {
         private readonly IReadRepository<Address> _readRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public GetAddressByUserIdQueryHandler(IReadRepository<Address> readRepository)
+        public GetAddressByUserIdQueryHandler(IReadRepository<Address> readRepository, IHttpContextAccessor httpContextAccessor)
         {
             _readRepository = readRepository;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<GetAddressByUserIdQueryResponse> Handle(GetAddressByUserIdQueryRequest request, CancellationToken cancellationToken)
         {
-            var address = await _readRepository.Table.FirstOrDefaultAsync(a => a.UserId == request.UserId);
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst("sub").Value;
+            var address = await _readRepository.Table.FirstOrDefaultAsync(a => a.UserId == userId);
             return new()
             {
                 Id = address.Id.ToString(),
-                UserId = request.UserId,
+                UserId = userId,
                 FirstName = address.FirstName,
                 LastName = address.LastName,
                 Email = address.Email,

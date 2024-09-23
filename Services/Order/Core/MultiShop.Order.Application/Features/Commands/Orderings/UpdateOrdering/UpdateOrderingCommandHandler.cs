@@ -25,7 +25,8 @@ namespace MultiShop.Order.Application.Features.Commands.Orderings.UpdateOrdering
                 Id = Guid.Parse(request.Id),
                 OrderDate = request.OrderDate,
                 TotalPrice = request.TotalPrice,
-                UserId = request.UserId
+                UserId = request.UserId,
+                Completed = request.Completed,
             });
             await _writeRepository.SaveAsync();
             return new();

@@ -24,7 +24,8 @@ namespace MultiShop.Order.Application.Features.Commands.Orderings.CreateOrdering
             {
                 OrderDate = request.OrderDate,
                 TotalPrice = request.TotalPrice,
-                UserId = request.UserId
+                UserId = request.UserId,
+                Completed = false,
             });
             await _writeRepository.SaveAsync();
             return new();

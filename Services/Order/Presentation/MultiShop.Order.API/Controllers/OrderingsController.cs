@@ -6,6 +6,7 @@ using MultiShop.Order.Application.Features.Commands.Orderings.CreateOrdering;
 using MultiShop.Order.Application.Features.Commands.Orderings.RemoveOrdering;
 using MultiShop.Order.Application.Features.Commands.Orderings.UpdateOrdering;
 using MultiShop.Order.Application.Features.Queries.Orderings.GetOrderingById;
+using MultiShop.Order.Application.Features.Queries.Orderings.GetOrderingByUserId;
 using MultiShop.Order.Application.Features.Queries.Orderings.GetOrderings;
 
 namespace MultiShop.Order.API.Controllers
@@ -33,6 +34,13 @@ namespace MultiShop.Order.API.Controllers
         public async Task<IActionResult> GetOrderingById([FromRoute] GetOrderingByIdQueryRequest request)
         {
             GetOrderingByIdQueryResponse response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetOrderingByUserId([FromQuery] GetOrderingByUserIdQueryRequest request)
+        {
+            List<GetOrderingByUserIdQueryResponse> response = await _mediator.Send(request);
             return Ok(response);
         }
 

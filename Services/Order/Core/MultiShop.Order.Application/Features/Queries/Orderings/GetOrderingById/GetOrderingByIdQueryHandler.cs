@@ -27,6 +27,7 @@ namespace MultiShop.Order.Application.Features.Queries.Orderings.GetOrderingById
                 OrderDate = data.OrderDate,
                 TotalPrice = data.TotalPrice,
                 UserId = data.UserId,
+                Completed = data.Completed,
             };
         }
     }

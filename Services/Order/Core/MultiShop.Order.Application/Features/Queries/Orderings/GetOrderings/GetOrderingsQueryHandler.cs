@@ -27,6 +27,7 @@ namespace MultiShop.Order.Application.Features.Queries.Orderings.GetOrderings
                 OrderDate = o.OrderDate,
                 TotalPrice = o.TotalPrice,
                 UserId = o.UserId,
+                Completed = o.Completed,
             }).ToList();
         }
     }

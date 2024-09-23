@@ -1,8 +1,12 @@
-﻿using MediatR;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MultiShop.Order.Application.Features.Commands.Orderings.UpdateOrdering
+namespace MultiShop.DTOLayer.OrderDTOs.OrderingDTOs
 {
-    public class UpdateOrderingCommandRequest : IRequest<UpdateOrderingCommandResponse>
+    public class ResultOrderingDTO
     {
         public string Id { get; set; }
         public string UserId { get; set; }
