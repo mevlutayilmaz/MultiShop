@@ -33,16 +33,16 @@ namespace MultiShop.Message.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetInboxMessages(string id)
+        public async Task<IActionResult> GetInboxMessages()
         {
-            var values = await _userMessageService.GetInboxMessagesAsync(id);
+            var values = await _userMessageService.GetInboxMessagesAsync();
             return Ok(values);
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetSendboxMessages(string id)
+        public async Task<IActionResult> GetSendboxMessages()
         {
-            var values = await _userMessageService.GetSendboxMessagesAsync(id);
+            var values = await _userMessageService.GetSendboxMessagesAsync();
             return Ok(values);
         }
 

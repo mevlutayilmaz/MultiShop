@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using MultiShop.Message.DAL.Contexts;
 using MultiShop.Message.Services;
+using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
 builder.Services.AddDbContext<MessageContext>(option => option.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL")));
 
@@ -14,6 +16,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     opt.Audience = "ResourceMessage";
     opt.RequireHttpsMetadata = false;
 });
+
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IUserMessageService, UserMessageService>();
 

@@ -1,0 +1,57 @@
+﻿@model List<ResultInboxMessageDTO>
+
+@{
+    ViewData["Title"] = "Inbox";
+    Layout = "~/Areas/User/Views/UserLayout/Index.cshtml";
+    int count = 1;
+}
+
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Inbox Messages</h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Receiver</th>
+                                    <th>Subject</th>
+                                    <th>Message Date</th>
+                                    <th>Status</th>
+                                    <th>Delete Message</th>
+                                    <th>Read Message</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@count</td>
+                                        <td>@item.ReceiverId</td>
+                                        <td>@item.Subject</td>
+                                        <td>@item.MessageDate.ToString("dd-MMM-yyyy")</td>
+                                        <td>
+                                            <label class="badge @(item.IsRead ? "badge-success" : "badge-warning")">
+                                                @(item.IsRead ? "Read" : "Unread")
+                                            </label>
+
+                                        </td>
+                                        <td><a href="#" class="btn btn-danger">Delete Message</a></td>
+                                        <td><a href="#" class="btn btn-info">Read Message</a></td>
+                                    </tr>
+                                    count++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

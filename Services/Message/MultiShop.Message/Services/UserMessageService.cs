@@ -10,16 +10,21 @@ namespace MultiShop.Message.Services
     {
         private readonly MessageContext _context;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserMessageService(MessageContext context, IMapper mapper)
+        public UserMessageService(MessageContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task CreateMessageAsync(CreateMessageDTO createMessageDTO)
         {
-            await _context.UserMessages.AddAsync(_mapper.Map<UserMessage>(createMessageDTO));
+            var value = _mapper.Map<UserMessage>(createMessageDTO);
+            value.IsRead = false;
+            value.MessageDate = DateTime.UtcNow;
+            await _context.UserMessages.AddAsync(value);
             await _context.SaveChangesAsync();
         }
 
@@ -42,14 +47,16 @@ namespace MultiShop.Message.Services
             return _mapper.Map<GetByIdMessageDTO>(value);
         }
 
-        public async Task<List<ResultInboxMessageDTO>> GetInboxMessagesAsync(string id)
+        public async Task<List<ResultInboxMessageDTO>> GetInboxMessagesAsync()
         {
+            var id = _httpContextAccessor.HttpContext.User.FindFirst("sub").Value;
             var values = await _context.UserMessages.Where(m => m.ReceiverId == id).ToListAsync();
             return _mapper.Map<List<ResultInboxMessageDTO>>(values);
         }
 
-        public async Task<List<ResultSendboxMessageDTO>> GetSendboxMessagesAsync(string id)
+        public async Task<List<ResultSendboxMessageDTO>> GetSendboxMessagesAsync()
         {
+            var id = _httpContextAccessor.HttpContext.User.FindFirst("sub").Value;
             var values = await _context.UserMessages.Where(m => m.SenderId == id).ToListAsync();
             return _mapper.Map<List<ResultSendboxMessageDTO>>(values);
         }

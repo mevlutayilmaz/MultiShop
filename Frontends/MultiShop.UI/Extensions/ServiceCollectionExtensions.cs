@@ -12,6 +12,7 @@ using MultiShop.UI.Services.CommentServices;
 using MultiShop.UI.Services.Concrete;
 using MultiShop.UI.Services.DiscountServices;
 using MultiShop.UI.Services.Interfaces;
+using MultiShop.UI.Services.MessageServices;
 using MultiShop.UI.Services.OrderServices.AddressServices;
 using MultiShop.UI.Services.OrderServices.OrderingServices;
 using MultiShop.UI.Settings;
@@ -55,6 +56,11 @@ namespace MultiShop.UI.Extensions
             services.AddHttpClient<IOrderingService, OrderingService>(opt =>
             {
                 opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Order.Path}");
+            }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+            services.AddHttpClient<IMessageService, MessageService>(opt =>
+            {
+                opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Message.Path}");
             }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
             services.AddHttpClient<ICategoryService, CategoryService>(opt =>
