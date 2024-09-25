@@ -1,5 +1,6 @@
 ﻿using MultiShop.UI.Handlers;
 using MultiShop.UI.Services.BasketServices;
+using MultiShop.UI.Services.CargoServices.CargoCompanyServices;
 using MultiShop.UI.Services.CatalogServices.BrandServices;
 using MultiShop.UI.Services.CatalogServices.CategoryServices;
 using MultiShop.UI.Services.CatalogServices.FeatureSliderServices;
@@ -67,6 +68,11 @@ namespace MultiShop.UI.Extensions
             services.AddHttpClient<IMessageService, MessageService>(opt =>
             {
                 opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Message.Path}");
+            }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+			
+			services.AddHttpClient<ICargoCompanyService, CargoCompanyService>(opt =>
+            {
+                opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Cargo.Path}");
             }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
             services.AddHttpClient<ICategoryService, CategoryService>(opt =>

@@ -55,7 +55,7 @@ namespace MultiShop.Cargo.API.Controllers
             return Ok("Kargo şirketi başarılı bir şekilde güncellendi.");
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCompany(string id)
         {
             await _companyService.TDeleteAsync(id);
