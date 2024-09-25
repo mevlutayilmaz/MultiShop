@@ -15,6 +15,7 @@ using MultiShop.UI.Services.Interfaces;
 using MultiShop.UI.Services.MessageServices;
 using MultiShop.UI.Services.OrderServices.AddressServices;
 using MultiShop.UI.Services.OrderServices.OrderingServices;
+using MultiShop.UI.Services.UserIdentityServices;
 using MultiShop.UI.Settings;
 
 namespace MultiShop.UI.Extensions
@@ -37,6 +38,11 @@ namespace MultiShop.UI.Extensions
 			{
 				opt.BaseAddress = new Uri(values.IdentityServiceUrl);
 			}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+            services.AddHttpClient<IUserIdentityService, UserIdentityService>(opt =>
+            {
+                opt.BaseAddress = new Uri(values.IdentityServiceUrl);
+            }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
             services.AddHttpClient<IBasketService, BasketService>(opt =>
             {

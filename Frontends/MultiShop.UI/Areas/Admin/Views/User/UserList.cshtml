@@ -1,0 +1,54 @@
+﻿@model List<ResultUserDTO>
+
+@{
+    ViewData["Title"] = "UserList";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+    int count = 1;
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h4>User List</h4>
+                <div class="bs-example" data-example-id="bordered-table">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Surname</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Two-Factor Authentication</th>
+                                <th>Delete User</th>
+                                <th>User Detail</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@count</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Surname</td>
+                                    <td>@item.UserName</td>
+                                    <td>@item.Email</td>
+                                    <td class="text-truncate">
+                                        <span class="lable-tag @(item.TwoFactorEnabled ? "tag-success" : "tag-unpaid")">
+                                            @(item.TwoFactorEnabled ? "Enabled" : "Disabled")
+                                        </span>
+                                    </td>
+                                    <td><a href="#" class="btn btn-danger">Delete User</a></td>
+                                    <td><a href="#" class="btn btn-info">User Detail</a></td>
+                                </tr>
+                                count++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

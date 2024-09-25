@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MultiShop.IdentityServer.DTOs;
 using MultiShop.IdentityServer.Models;
 using System.Threading.Tasks;
@@ -35,6 +36,13 @@ namespace MultiShop.IdentityServer.Controllers
 
             if (result.Succeeded) return Ok("Kayıt işlemi başarılı");
             return Ok("Kayıt sırasında bir hata meydana geldi");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            return Ok(users);
         }
     }
 }
