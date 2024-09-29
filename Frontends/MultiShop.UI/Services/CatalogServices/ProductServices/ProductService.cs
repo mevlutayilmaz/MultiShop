@@ -1,5 +1,6 @@
 ﻿using MultiShop.DTOLayer.CatalogDTOs.ProductDTOs;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
 namespace MultiShop.UI.Services.CatalogServices.ProductServices
@@ -14,7 +15,23 @@ namespace MultiShop.UI.Services.CatalogServices.ProductServices
 
 		public async Task CreateProductAsync(CreateProductDTO createProductDTO)
 		{
-			await _httpClient.PostAsJsonAsync("products", createProductDTO);
+            using var content = new MultipartFormDataContent();
+
+            content.Add(new StringContent(createProductDTO.Name), "Name");
+            content.Add(new StringContent(createProductDTO.Price.ToString()), "Price");
+            content.Add(new StringContent(createProductDTO.Description), "Description");
+            content.Add(new StringContent(createProductDTO.CategoryId), "CategoryId");
+
+            if (createProductDTO.File != null)
+            {
+                var fileContent = new StreamContent(createProductDTO.File.OpenReadStream());
+                fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse(createProductDTO.File.ContentType);
+                content.Add(fileContent, "File", createProductDTO.File.FileName);
+            }
+
+            var response = await _httpClient.PostAsync("products", content);
+
+            //await _httpClient.PostAsJsonAsync("products", createProductDTO);
 		}
 
 		public async Task DeleteProductAsync(string id)

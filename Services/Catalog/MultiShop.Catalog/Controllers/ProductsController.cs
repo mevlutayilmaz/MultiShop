@@ -6,8 +6,8 @@ using MultiShop.Catalog.Services.ProductServices;
 
 namespace MultiShop.Catalog.Controllers
 {
-	[Authorize]
-	[Route("api/[controller]")]
+    [Authorize]
+    [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
@@ -47,7 +47,7 @@ namespace MultiShop.Catalog.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProduct(CreateProductDTO createProductDTO)
+        public async Task<IActionResult> CreateProduct([FromForm] CreateProductDTO createProductDTO)
         {
             await _productService.CreateProductAsync(createProductDTO);
             return Ok("Product başarıyla eklendi");

@@ -13,7 +13,7 @@
                 <p>Ürün ile ilgili ekleme işlemlerinizi bu panelden yapabilirsiniz.</p>
                 <div class="bs-example" data-example-id="bordered-table">
 
-                    <form method="post">
+                    <form method="post" enctype="multipart/form-data">
                         <label>Ürün Adı</label>
                         <input type="text" class="form-control" asp-for="Name" />
                         <br />
@@ -21,7 +21,7 @@
                         <input type="text" class="form-control" asp-for="Price" />
                         <br />
                         <label>Ürün Görseli</label>
-                        <input type="text" class="form-control" asp-for="ImageUrl" />
+                        <input type="file" class="form-control" asp-for="File" />
                         <br />
                         <label>Ürün Kategorisi</label>
                         <select class="form-control" style="min-height:50px !important;" asp-for="CategoryId" asp-items="ViewBag.CategoryValues"></select>
