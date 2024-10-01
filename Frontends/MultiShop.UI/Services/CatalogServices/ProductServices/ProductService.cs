@@ -67,7 +67,23 @@ namespace MultiShop.UI.Services.CatalogServices.ProductServices
 
 		public async Task UpdateProductAsync(UpdateProductDTO updateProductDTO)
 		{
-			await _httpClient.PutAsJsonAsync("products", updateProductDTO);
+            using var content = new MultipartFormDataContent();
+
+            content.Add(new StringContent(updateProductDTO.Id), "Id");
+            content.Add(new StringContent(updateProductDTO.Name), "Name");
+            content.Add(new StringContent(updateProductDTO.Price.ToString()), "Price");
+            content.Add(new StringContent(updateProductDTO.Description), "Description");
+            content.Add(new StringContent(updateProductDTO.CategoryId), "CategoryId");
+            content.Add(new StringContent(updateProductDTO.ImageUrl), "ImageUrl");
+
+            if (updateProductDTO.File != null)
+            {
+                var fileContent = new StreamContent(updateProductDTO.File.OpenReadStream());
+                fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse(updateProductDTO.File.ContentType);
+                content.Add(fileContent, "File", updateProductDTO.File.FileName);
+            }
+
+            await _httpClient.PutAsync("products", content);
 		}
 	}
 }

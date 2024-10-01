@@ -12,9 +12,11 @@
                 <h4>Ürün Güncelleme</h4>
                 <div class="bs-example" data-example-id="bordered-table">
 
-                    <form method="post">
+                    <form method="post" enctype="multipart/form-data">
                         <label>Ürün Id</label>
                         <input type="text" readonly class="form-control" asp-for="Id" />
+                        <br />
+                        <input type="hidden" readonly class="form-control" asp-for="ImageUrl" />
                         <br />
                         <label>Ürün Adı</label>
                         <input type="text" class="form-control" asp-for="Name" />
@@ -23,8 +25,13 @@
                         <input type="text" class="form-control" asp-for="Price" />
                         <br />
                         <label>Ürün Görseli</label>
-                        <input type="text" class="form-control" asp-for="ImageUrl" />
-                        <br />
+                        <div style="display: flex; align-items: center;">
+                            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                            {
+                                <img src="@Model.ImageUrl" alt="Ürün Görseli" style="width: 100px; height: 100px; object-fit: cover; margin-right: 10px;" />
+                            }
+                            <input type="file" class="form-control" asp-for="File" />
+                        </div>
                         <label>Ürün Kategorisi</label>
                         <select class="form-control" style="min-height:50px !important;" asp-for="CategoryId" asp-items="ViewBag.CategoryValues"></select>
                         <br />

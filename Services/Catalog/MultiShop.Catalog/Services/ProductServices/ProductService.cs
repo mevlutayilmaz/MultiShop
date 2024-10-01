@@ -72,6 +72,11 @@ namespace MultiShop.Catalog.Services.ProductServices
         public async Task UpdateProductAsync(UpdateProductDTO updateProductDTO)
         {
             var value = _mapper.Map<Product>(updateProductDTO);
+            if(updateProductDTO.File is not null)
+            {
+                var images = await _fileService.UplodProductImagesAsync(new FormFileCollection { updateProductDTO.File });
+                value.ImageUrl = images.First();
+            }
             await _productCollection.FindOneAndReplaceAsync(p => p.Id == updateProductDTO.Id, value);
         }
     }

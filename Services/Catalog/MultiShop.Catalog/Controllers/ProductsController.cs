@@ -54,7 +54,7 @@ namespace MultiShop.Catalog.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateProduct(UpdateProductDTO updateProductDTO)
+        public async Task<IActionResult> UpdateProduct([FromForm] UpdateProductDTO updateProductDTO)
         {
             await _productService.UpdateProductAsync(updateProductDTO);
             return Ok("Product başarıyla güncellendi");
