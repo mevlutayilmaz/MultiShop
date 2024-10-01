@@ -2,7 +2,7 @@
 {
     public class CreateProductImageDTO
     {
-        public string ImageUrl { get; set; }
+        public IFormFileCollection Files { get; set; }
         public string ProductId { get; set; }
     }
 }

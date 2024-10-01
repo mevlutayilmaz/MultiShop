@@ -1,8 +1,10 @@
-﻿namespace MultiShop.DTOLayer.CatalogDTOs.ProductImageDTOs
+﻿using Microsoft.AspNetCore.Http;
+
+namespace MultiShop.DTOLayer.CatalogDTOs.ProductImageDTOs
 {
     public class CreateProductImageDTO
     {
-        public string ImageUrl { get; set; }
         public string ProductId { get; set; }
+        public IFormFileCollection Files { get; set; }
     }
 }

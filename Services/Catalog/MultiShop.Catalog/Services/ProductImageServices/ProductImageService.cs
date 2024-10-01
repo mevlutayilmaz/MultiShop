@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using MultiShop.Catalog.DTOs.ProductImageDTOs;
 using MultiShop.Catalog.Entities;
+using MultiShop.Catalog.Services.FileServices;
 using MultiShop.Catalog.Settings;
 
 namespace MultiShop.Catalog.Services.ProductImageServices
@@ -10,19 +11,28 @@ namespace MultiShop.Catalog.Services.ProductImageServices
     {
         private readonly IMongoCollection<ProductImage> _productImageCollection;
         private readonly IMapper _mapper;
+        private readonly IFileService _fileService;
 
-        public ProductImageService(IMapper mapper, IDatabaseSettings databaseSettings)
+        public ProductImageService(IMapper mapper, IDatabaseSettings databaseSettings, IFileService fileService)
         {
             var client = new MongoClient(databaseSettings.ConnectionString);
             var database = client.GetDatabase(databaseSettings.DatabaseName);
             _productImageCollection = database.GetCollection<ProductImage>(databaseSettings.ProductImageCollectionName);
             _mapper = mapper;
+            _fileService = fileService;
         }
 
         public async Task CreateProductImageAsync(CreateProductImageDTO createProductImageDTO)
         {
-            var value = _mapper.Map<ProductImage>(createProductImageDTO);
-            await _productImageCollection.InsertOneAsync(value);
+            var images = await _fileService.UplodProductImagesAsync(createProductImageDTO.Files);
+            List<ProductImage> productImages = new();
+            foreach (var image in images)
+                productImages.Add(new()
+                {
+                    ProductId = createProductImageDTO.ProductId,
+                    ImageUrl = image
+                });
+            await _productImageCollection.InsertManyAsync(productImages);
         }
 
         public async Task DeleteProductImageAsync(string id)

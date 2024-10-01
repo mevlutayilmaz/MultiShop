@@ -27,6 +27,52 @@ Designed By: UXLiner
 	+ copyrights
 --------------------------------------------------------*/
 
+.image-container {
+	position: relative;
+	margin-bottom: 10px;
+}
+
+.image-wrapper {
+	width: 100%;
+	height: 200px; /* Standart yükseklik */
+	overflow: hidden;
+	border-radius: 10px;
+}
+
+	.image-wrapper img {
+		width: 100%;
+		height: auto;
+		object-fit: cover; /* Resim konteyner'a sığdırılır */
+	}
+
+.delete-icon {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background-color: rgba(0, 0, 0, 0.2); /* Şeffaf siyah arka plan */
+	color: white;
+	border-radius: 50%;
+	padding: 5px 8px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	text-decoration: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+	.delete-icon:hover {
+		background-color: rgba(0, 0, 0, 0.6); /* Daha koyu arka plan */
+		color: white
+	}
+
+.close-icon {
+	font-size: 18px;
+	line-height: 1;
+	vertical-align: middle;
+}
+
+
 /* Layout */
 html, body {
 	height: 100%;

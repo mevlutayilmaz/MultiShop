@@ -40,7 +40,7 @@ namespace MultiShop.Catalog.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProductImage(CreateProductImageDTO createProductImageDTO)
+        public async Task<IActionResult> CreateProductImage([FromForm] CreateProductImageDTO createProductImageDTO)
         {
             await _productImageService.CreateProductImageAsync(createProductImageDTO);
             return Ok("ProductImage başarıyla eklendi");

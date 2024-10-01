@@ -3,43 +3,106 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
-    int count = 0;
+    int currentImageCount = Model.Count; // Mevcut ürün görsel sayısı
+    int maxTotalImages = 6; // Maksimum izin verilen toplam görsel sayısı
+    int remainingImages = maxTotalImages - currentImageCount; // Yüklenebilecek maksimum görsel sayısı
 }
 
 <section class="content container-fluid">
     <div class="row">
         <div class="col-md-12">
             <div class="chart-box">
-                <h4>Ürün Görsel Tablosu</h4>
-                <p>Ürün Görsel ile ilgili işlemlerinizi bu tablodan yapabilirsiniz.</p>
-                <div class="bs-example" data-example-id="bordered-table">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Ürün Görseli</th>
-                                <th>Sil</th>
-                                <th>Güncelle</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                count++;
-                                <tr>
-                                    <th scope="row">@count</th>
-                                    <td>@item.ImageUrl</td>
-                                    <td><a href="/Admin/ProductImage/DeleteProductImage/@item.Id" class="btn btn-danger">Sil</a></td>
-                                    <td><a href="/Admin/ProductImage/UpdateProductImage/@item.Id" class="btn btn-success">Güncelle</a></td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                    <a href="/Admin/ProductImage/CreateProductImage/@ViewBag.productId" class="btn btn-primary">Yeni Görsel Girişi</a>
+                <h4>Ürün Görselleri</h4>
+                <p>Ürün Görselleri ile ilgili işlemlerinizi buradan yapabilirsiniz.</p>
+
+                <div class="container">
+                    <div class="row">
+                        @foreach (var item in Model)
+                        {
+                            <div class="col-md-2 image-container">
+                                <div class="image-wrapper">
+                                    <img src="@item.ImageUrl" alt="Ürün Görseli" class="img-fluid">
+                                </div>
+                                <a href="/Admin/ProductImage/DeleteProductImage/@item.Id" class="delete-icon">
+                                    <span class="close-icon">×</span>
+                                </a>
+                            </div>
+                        }
+                    </div>
                 </div>
+
+                <hr />
+                @if (currentImageCount < maxTotalImages)
+                {
+                    <form method="post" enctype="multipart/form-data" action="/Admin/ProductImage/CreateProductImage">
+                        <label>Yeni Görsel Yükleyin (Maksimum @remainingImages adet daha yükleyebilirsiniz)</label>
+                        <input type="file" id="fileInput" name="files" multiple class="form-control" accept="image/*" required/>
+                        <input type="hidden" name="productId" value="@ViewBag.productId" />
+                        <button type="submit" class="btn btn-primary mt-3">Yeni Görsel Girişi</button>
+                    </form>
+                }
+                else
+                {
+                    <p>Maksimum 6 görsele ulaştınız.</p>
+                }
             </div>
         </div>
     </div>
 </section>
 
+<script>
+    document.getElementById('fileInput').addEventListener('change', function (e) {
+        const maxImagesAllowed = @remainingImages; // Yükleyebileceği maksimum görsel sayısı
+        if (e.target.files.length > maxImagesAllowed) {
+            alert('En fazla ' + maxImagesAllowed + ' görsel seçebilirsiniz.');
+            e.target.value = ''; // Seçimi sıfırlar
+        }
+    });
+</script>
 
+<style>
+    .image-container {
+        position: relative;
+        margin-bottom: 10px;
+    }
+
+    .image-wrapper {
+        width: 100%;
+        height: 200px; /* Standart yükseklik */
+        overflow: hidden;
+        border-radius: 10px;
+    }
+
+        .image-wrapper img {
+            width: 100%;
+            height: auto;
+            object-fit: cover; /* Resim konteyner'a sığdırılır */
+        }
+
+    .delete-icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: rgba(0, 0, 0, 0.2); /* Şeffaf siyah arka plan */
+        color: white;
+        border-radius: 50%;
+        padding: 5px 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .delete-icon:hover {
+            background-color: rgba(0, 0, 0, 0.6); /* Daha koyu arka plan */
+            color: white
+        }
+
+    .close-icon {
+        font-size: 18px;
+        line-height: 1;
+        vertical-align: middle;
+    }
+</style>

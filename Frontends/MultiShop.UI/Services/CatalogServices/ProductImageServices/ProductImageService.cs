@@ -1,4 +1,5 @@
 ﻿using MultiShop.DTOLayer.CatalogDTOs.ProductImageDTOs;
+using System.Net.Http.Headers;
 
 namespace MultiShop.UI.Services.CatalogServices.ProductImageServices
 {
@@ -12,7 +13,17 @@ namespace MultiShop.UI.Services.CatalogServices.ProductImageServices
 
 		public async Task CreateProductImageAsync(CreateProductImageDTO createProductImageDTO)
 		{
-			await _httpClient.PostAsJsonAsync("productimages", createProductImageDTO);
+			using var content = new MultipartFormDataContent();
+
+			content.Add(new StringContent(createProductImageDTO.ProductId), "ProductId");
+
+            foreach (var file in createProductImageDTO.Files)
+            {
+				var fileContent = new StreamContent(file.OpenReadStream());
+                fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse(file.ContentType);
+                content.Add(fileContent, "Files", file.FileName);
+            }
+            await _httpClient.PostAsync("productimages", content);
 		}
 
 		public async Task DeleteProductImageAsync(string id)

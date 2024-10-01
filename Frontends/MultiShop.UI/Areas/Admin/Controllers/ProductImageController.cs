@@ -37,13 +37,21 @@ namespace MultiShop.UI.Areas.Admin.Controllers
 			return View();
         }
 
+  //      [HttpPost]
+  //      [Route("CreateProductImage/{productId}")]
+  //      public async Task<IActionResult> CreateProductImage(string productId, CreateProductImageDTO createProductImageDTO)
+  //      {
+		//	await _productImageService.CreateProductImageAsync(createProductImageDTO);
+		//	return RedirectToAction("Index", "ProductImage", new { area = "Admin", productId = productId });
+		//}
+
         [HttpPost]
-        [Route("CreateProductImage/{productId}")]
-        public async Task<IActionResult> CreateProductImage(string productId, CreateProductImageDTO createProductImageDTO)
+        [Route("CreateProductImage")]
+        public async Task<IActionResult> CreateProductImage(CreateProductImageDTO createProductImageDTO)
         {
-			await _productImageService.CreateProductImageAsync(createProductImageDTO);
-			return RedirectToAction("Index", "ProductImage", new { area = "Admin", productId = productId });
-		}
+            await _productImageService.CreateProductImageAsync(createProductImageDTO);
+            return RedirectToAction("Index", "ProductImage", new { area = "Admin", productId = createProductImageDTO.ProductId });
+        }
 
         [Route("DeleteProductImage/{id}")]
         public async Task<IActionResult> DeleteProductImage(string id)
