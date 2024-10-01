@@ -50,6 +50,11 @@ namespace MultiShop.Catalog.Services.CategoryServices
         public async Task UpdateCategoryAsync(UpdateCategoryDTO updateCategoryDTO)
         {
             var value = _mapper.Map<Category>(updateCategoryDTO);
+            if(updateCategoryDTO.File is not null)
+            {
+                var images = await _fileService.UplodCategoryImagesAsync(new FormFileCollection { updateCategoryDTO.File });
+                value.ImageUrl = images.First();
+            }
             await _categoryCollection.FindOneAndReplaceAsync(c => c.Id == updateCategoryDTO.Id, value);   
         }
     }

@@ -12,16 +12,23 @@
                 <h4>Kategori Güncelleme</h4>
                 <div class="bs-example" data-example-id="bordered-table">
 
-                    <form method="post">
+                    <form method="post" enctype="multipart/form-data">
                         <label>Kategori Id</label>
                         <input type="text" readonly class="form-control" asp-for="Id" />
+                        <br />
+                        <input type="hidden" class="form-control" asp-for="ImageUrl" />
                         <br />
                         <label>Kategori Adı</label>
                         <input type="text" class="form-control" asp-for="Name" />
                         <br />
                         <label>Kategori Görseli</label>
-                        <input type="text" class="form-control" asp-for="ImageUrl" />
-                        <br />
+                        <div style="display: flex; align-items: center;">
+                            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                            {
+                                <img src="@Model.ImageUrl" alt="Kategori Görseli" style="width: 100px; height: 100px; object-fit: cover; margin-right: 10px;" />
+                            }
+                            <input type="file" class="form-control" asp-for="File" />
+                        </div>
                         <button class="btn btn-primary">Kategoriyi Güncelle</button>
                     </form>
 

@@ -46,7 +46,21 @@ namespace MultiShop.UI.Services.CatalogServices.CategoryServices
 		}
 		public async Task UpdateCategoryAsync(UpdateCategoryDTO updateCategoryDTO)
 		{
-			await _httpClient.PutAsJsonAsync("categories", updateCategoryDTO);
+            using var content = new MultipartFormDataContent();
+
+            content.Add(new StringContent(updateCategoryDTO.Id), "Id");
+            content.Add(new StringContent(updateCategoryDTO.Name), "Name");
+            content.Add(new StringContent(updateCategoryDTO.ImageUrl), "ImageUrl");
+
+            if (updateCategoryDTO.File is not null)
+            {
+                var fileContent = new StreamContent(updateCategoryDTO.File.OpenReadStream());
+                fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse(updateCategoryDTO.File.ContentType);
+                content.Add(fileContent, "File", updateCategoryDTO.File.FileName);
+            }
+
+			await _httpClient.PutAsync("categories", content);
+            //await _httpClient.PutAsJsonAsync("categories", updateCategoryDTO);
 		}
 	}
 }

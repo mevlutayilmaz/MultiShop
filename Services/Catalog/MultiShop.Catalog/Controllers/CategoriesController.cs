@@ -40,7 +40,7 @@ namespace MultiShop.Catalog.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateCategory(UpdateCategoryDTO updateCategoryDTO)
+        public async Task<IActionResult> UpdateCategory([FromForm] UpdateCategoryDTO updateCategoryDTO)
         {
             await _categoryService.UpdateCategoryAsync(updateCategoryDTO);
             return Ok("Category başarıyla güncellendi");  
