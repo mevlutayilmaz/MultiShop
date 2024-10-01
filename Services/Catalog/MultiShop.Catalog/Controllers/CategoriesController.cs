@@ -33,7 +33,7 @@ namespace MultiShop.Catalog.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCategory(CreateCategoryDTO createCategoryDTO)
+        public async Task<IActionResult> CreateCategory([FromForm] CreateCategoryDTO createCategoryDTO)
         {
             await _categoryService.CreateCategoryAsync(createCategoryDTO);
             return Ok("Category başarıyla eklendi");

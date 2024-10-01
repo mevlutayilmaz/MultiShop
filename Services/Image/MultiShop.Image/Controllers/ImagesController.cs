@@ -24,7 +24,7 @@ namespace MultiShop.Image.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> UploadCategoryImages(IFormFileCollection files)
+        public async Task<IActionResult> UploadCategoryImages([FromForm] IFormFileCollection files)
         {
             var result = await _storageService.UploadAsync("category-images", files);
             var filePaths = result.Select(x => x.pathOrContainerName).ToList();
